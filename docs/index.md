@@ -25,5 +25,36 @@ R.gPad.SetRightMargin(0.05);
 R.gPad.SetLeftMargin(0.18);
 ```
 
+### x軸、y軸のタイトルを調整する
+
+```python
+h_simu.SetTitle("")
+h_simu.GetXaxis().SetTitle("m_{X} [GeV]")
+h_simu.GetXaxis().SetTitleSize(0.05)
+h_simu.GetXaxis().SetTitleOffset(1.1)
+
+h_simu.GetYaxis().SetTitle("Entries")
+h_simu.GetYaxis().SetTitleSize(0.05)
+h_simu.GetYaxis().SetTitleOffset(1.3)
+```
+
+### x軸、y軸のラベルを調整する
+
+```python
+h_simu.GetXaxis().SetLabelSize(0.05)
+h_simu.GetYaxis().SetLabelSize(0.05)
+
+```
+
+### ヒストグラムの見栄え
+
+```python
+h_simu.SetLineColor(R.kBlack)
+h_simu.SetFillColor(R.kAzure-4)
+```
+
+### エラーをメッシュで表示する
+
+
 ## 統計処理を加える
 
