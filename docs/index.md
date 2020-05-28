@@ -19,6 +19,15 @@ import ROOT as R
 
 を設定していることを前提としています。
 
+- [各パーツの名前](#各パーツの名前)
+- [統計Boxを消す](#統計Boxを消す)
+- [](#)
+- [](#)
+- [](#)
+- [](#)
+- [](#)
+- [](#)
+
 ### 統計Boxを消す
 
 ```python
@@ -28,32 +37,43 @@ R.gStyle.SetOptStat(0)
 ### マージン（余白）を調整する
 
 ```python
-R.gPad.SetTopMargin(0.1);
-R.gPad.SetBottomMargin(0.15);
-R.gPad.SetRightMargin(0.05);
-R.gPad.SetLeftMargin(0.18);
+R.gPad.SetTopMargin(0.1);     # TPadとキャンバスの上側の余白
+R.gPad.SetBottomMargin(0.15); # TPadとキャンバスの下側の余白
+R.gPad.SetRightMargin(0.05);  # TPadとキャンバスの右側の余白
+R.gPad.SetLeftMargin(0.18);   # TPadとキャンバスの左側の余白
 ```
+
+左側にはy軸目盛りと軸タイトルがあるので、多めに余白を設定しています。逆に右側は何もないので、良い具合に狭めの余白を設定しています。
 
 ### x軸、y軸のタイトルを調整する
 
 ```python
+# ヒストグラムのタイトル
 h_simu.SetTitle("")
+
+# x軸のタイトル
 h_simu.GetXaxis().SetTitle("m_{X} [GeV]")
 h_simu.GetXaxis().SetTitleSize(0.05)
 h_simu.GetXaxis().SetTitleOffset(1.1)
 
+# y軸のタイトル
 h_simu.GetYaxis().SetTitle("Entries")
 h_simu.GetYaxis().SetTitleSize(0.05)
 h_simu.GetYaxis().SetTitleOffset(1.3)
 ```
+
+ヒストグラムのタイトル、軸タイトルはもちろんコンストラクタで設定することができますが、
+細かく色々したくなることも考えると個別に設定する方法も知っておく必要があると思います。
 
 ### x軸、y軸のラベルを調整する
 
 ```python
 h_simu.GetXaxis().SetLabelSize(0.05)
 h_simu.GetYaxis().SetLabelSize(0.05)
-
 ```
+
+ラベル（目盛り）のテキストの大きさを設定しています。
+「目盛りを大きくしろ」と言われたら、適度に設定しましょう。
 
 ### ヒストグラムの見栄え
 
@@ -70,8 +90,11 @@ h_error.SetFillStyle(3244)
 h_error.SetFillColor(R.kGray+2)
 h_error.SetMarkerStyle(8)
 h_error.SetMarkerSize(0)
-h_error.Draw("e2 same")
+h_error.Draw("same e2")
 ```
+
+今回は青色のヒストグラムを背景事象に見立てて描画しており、その統計誤差を表示する際にメッシュで表示することが多々あります。
+その際には統計誤差を付けたいヒストグラムをCloneで持ってきて、上の様な処理を行うことで重ねて表示することができます。
 
 ### 実験値をポイントで書く
 
@@ -82,10 +105,13 @@ h_data.SetMarkerSize(0.8)
 h_data.Draw("same p")
 ```
 
+実験値は往々にして黒点＋誤差棒で表記されます。
+
 ### ATLASラベルを書く（TLatex）
 （思いっきり実験名出していますが...）
 ROOTでは通常の汎用を書くためのTLegendクラスと、文字や数式を書くためのTLatexクラスが用意されています。
-そして微妙に使い方が異なります。
+そして微妙に使い方が異なります。ここではまず、TPad内に文字を書くTLatexクラスについて説明します。
+個人的なキモはSetNDC(1)を書いている所で、Normalised Coordinate（NDC）で位置を指定しています。
 
 ```python
 latex = R.TLatex()
@@ -103,15 +129,19 @@ latex.DrawLatex(0.21, 0.74 , "X TeV, Y fb^{-1}")
 ### レジェンドを書く（TLegend）
 
 ```python
+# 位置
 legend = R.TLegend(0.7, 0.75, 0.9, 0.85)
-legend.SetBorderSize(0)
-legend.SetFillStyle(0)
-legend.AddEntry(h_data,  "data", "pl")
-legend.AddEntry(h_simu,  "background", "f")
+
+# 見栄え
+legend.SetBorderSize(0) # 凡例を囲む線をなくす（デフォルトで黒線で囲まれている）
+legend.SetFillStyle(0)  # 凡例の領域の背景色を無くす（デフォルトで白塗りされている）
+
+# 凡例を追加する
+legend.AddEntry(h_data,  "data", "pl")       # p: ポイント、l:ライン
+legend.AddEntry(h_simu,  "background", "f")  # f: boxで囲む
 legend.AddEntry(h_error, "Uncertainty", "f")
+
+# 描画する
 legend.Draw()
 ```
-
-
-## 統計処理を加える
 
