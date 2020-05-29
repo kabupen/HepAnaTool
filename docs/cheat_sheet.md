@@ -13,4 +13,6 @@ hist = R.TH1D("hist", "hist", 10, 0, 10) # 範囲、ビン幅は何でもok
 
 ||説明|
 |:---|:---|
-|R.gStyle.SetOptStat(0)|統計ボックスを消す|
+|`hist.Scale(1/hist.Integral())`|ヒストグラムを規格化する|
+|```hist.GetYaxis().SetRangeUser(0, 1)```|y軸の範囲を変更する|
+|R.gStyle.SetOptStat(0)                  |統計ボックスを消す|
