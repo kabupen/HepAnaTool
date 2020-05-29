@@ -10,14 +10,16 @@ CERN ROOTに付随する、より高度な統計処理を行うためのRooStats
 ```cpp
 void gaussian()
 {
+    // RooWorkspaceの作成、名前を"ws"としている
     RooWorkspace ws("ws");
-    ws.factory("Gaussian::gaus(x[-10,10], mean[0], sigma[1])");
-    ws.factory("PROD::model(gaus)");
 
-    RooDataSet* data = ws.pdf("model")->generate(*ws.var("x"), 1000);
+    // factoryメソッドを使って、一気に"MyGauss"という名前のガウス分布を定義している
+    ws.factory("Gaussian::MyGauss(x[-10,10], mean[0], sigma[1])");
+
+    RooDataSet* data = ws.pdf("MyGauss")->generate(*ws.var("x"), 1000);
     RooPlot *frame = ws.var("x")->frame();
     data           ->plotOn(frame);
-    ws.pdf("model")->plotOn(frame);
+    ws.pdf("MyGauss")->plotOn(frame);
     frame->Draw();
 }
 ```
