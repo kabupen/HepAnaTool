@@ -31,7 +31,7 @@ void gaussian()
 
 ちなみにfactoryメソッドを使わなければ、以下のようにRooRealVarを変数分定義しなければならないのでより煩雑になる。
 
-```cppp
+```cpp
 void gaussian()
 {
     RooRealVar  x("x","x",-10,10);
@@ -47,3 +47,34 @@ void gaussian()
 ```
 
 ## RooWorkspaceの使い方
+単純なフィットであればROOTの範疇でやっていけるが、最尤法などを用いてパラメーター推定を本格的にやり始めるとRooStatsを使いたくなると思います。
+
+```cpp
+void workspace() 
+{
+    //construct the model
+    RooWorkspace w("w");
+
+    w.factory("Gaussian::constraint_b(nuisance_b[41.7,0,100],41.7,4.6)");          //constrained b to be positive - "truncated gaussian"
+    w.factory("Gaussian::constraint_acc(nuisance_acc[0.71,0,1],0.71,0.09)");       //constrained acc in range 0-1
+    w.factory("Gaussian::constraint_lumi(nuisance_lumi[5.0,0.0,10.0],5.0,0.195)"); //constrained lumi from 0 to 10.0
+    w.factory("prod::s(sigma[0,100],nuisance_lumi,nuisance_acc)");
+    w.factory("sum::mean(s,nuisance_b)");
+    w.factory("Poisson::pois(n[61,0,100],mean)");
+    w.factory("PROD::model(pois,constraint_b,constraint_lumi,constraint_acc)");
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
