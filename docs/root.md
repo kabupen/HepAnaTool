@@ -146,3 +146,6 @@ legend.AddEntry(h_error, "Uncertainty", "f")
 legend.Draw()
 ```
 
+## キャンバスを二分割する
+
+<img width="30%" src="fig/tpad.png" style="float: left;"/>
