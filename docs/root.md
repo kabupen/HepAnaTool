@@ -150,7 +150,7 @@ legend.Draw()
 よくあるプロットの2例目として、通常のヒストグラムとそれらのRaitoを取ったプロットを書く場合がある。
 TPadを駆使することで、よくある図もお絵描きすることができる。
 
-<img width="30%" src="fig/tpad.png" style="float: left;"/>
+<img width="30%" src="fig/tpad.png"/>
 
 
 ### TPadの使い方
